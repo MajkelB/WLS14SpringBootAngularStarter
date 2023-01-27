@@ -18,6 +18,10 @@
 			<dir name="C:/Dane/Projekty/WLS14SpringAngular/src/main/webapp">
 			</dir>
 		</link>
+
+		<link target="/">
+			<dir name="C:/Dane/Projekty/WLS14SpringAngular/frontend/dist/frontend"/>
+		</link>
 	</web>
 
 </application>

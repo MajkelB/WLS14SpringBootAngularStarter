@@ -32,7 +32,7 @@ public class TestController {
 
     @GetMapping("/test")
     String test() {
-        return "test3: " + testVal;
+        return "test4: " + testVal;
     }
 
     @GetMapping("/initDB")

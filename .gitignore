@@ -9,6 +9,8 @@ tmp/
 app/**/*.js
 app/**/*.js.map
 
+
+
 # dependencies
 node_modules/
 bower_components/
@@ -25,6 +27,7 @@ npm-debug.log
 testem.log
 typings/
 .angular/
+.gitignore2
 
 # e2e
 e2e/*.js
@@ -184,6 +187,7 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+.mvn/*
 
 # Eclipse m2e generated files
 # Eclipse Core

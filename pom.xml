@@ -16,15 +16,101 @@
 	<description>Springboot WLS14 Angular starter app</description>
 	<properties>
 		<angular.project.location>frontend</angular.project.location>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- versions -->
 		<java.version>11</java.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<lombok.version>1.18.24</lombok.version>
 		<springboot.jpa.version>2.7.3</springboot.jpa.version>
+		<jee.version>8.0</jee.version>
+
+		<!-- plugins -->
+		<build.helper.plugin.version>3.0.0</build.helper.plugin.version>
+		<resources.plugin.version>2.6</resources.plugin.version>
+		<exec.plugin.version>1.6.0</exec.plugin.version>
+
+		<!-- others -->
+		<exec.ng>ng</exec.ng>
+		<exec.npm>npm</exec.npm>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>angular</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>exec-npm-install</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<workingDirectory>${project.basedir}/${angular.project.location}</workingDirectory>
+									<executable>${exec.npm}</executable>
+									<arguments>
+										<argument>install</argument>
+										<argument>--legacy-peer-deps</argument>
+									</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>exec-npm-ng-build</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<workingDirectory>${project.basedir}/${angular.project.location}</workingDirectory>
+									<executable>${exec.ng}</executable>
+									<arguments>
+										<argument>build</argument>
+										<argument>--configuration=development</argument>
+										<argument>--build-optimizer=false</argument>
+										<argument>--stats-json</argument>
+										<argument>--source-map=false</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>${resources.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>default-copy-resources</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<!--                                    <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/</outputDirectory>-->
+									<outputDirectory>${project.build.directory}/${project.build.finalName}/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.basedir}/${angular.project.location}/dist/frontend</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+
+
+	</profiles>
 
 
 	<build>
@@ -96,6 +182,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${jee.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
